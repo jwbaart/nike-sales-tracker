@@ -1,0 +1,17 @@
+{
+  "name": "nike-sales-tracker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "firebase": "firebase"
+  },
+  "repository": "https://github.com/jwbaart/nike-sales-tracker.git",
+  "author": "Jan-Willem Baart <jwbaart@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "firebase-tools": "^8.16.2",
+    "typescript": "^4.0.5"
+  },
+  "dependencies": {}
+}
