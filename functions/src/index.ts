@@ -3,6 +3,7 @@ import * as admin from "firebase-admin";
 
 import { extractProductLinks } from "./libs/extract-products";
 import { storeNewProducts } from "./libs/store-new-products";
+import { setAllProductsToInactive } from "./libs/set-all-products-to-inactive";
 
 admin.initializeApp();
 
@@ -23,6 +24,7 @@ export const checkProducts = functions
       searchTitle
     );
 
+    await setAllProductsToInactive();
     await storeNewProducts(productLinksResult);
 
     response.send(productLinksResult);
