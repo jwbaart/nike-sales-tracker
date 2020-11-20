@@ -6,7 +6,7 @@ export const extractProductLinks = async (
   productLinkSelector: string,
   productTitleSelector: string,
   searchTitle: string
-) => {
+): Promise<string[]> => {
   const browser = await puppeteer.launch({
     args: ["--no-sandbox"],
   });

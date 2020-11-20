@@ -1,21 +1,14 @@
 import * as functions from "firebase-functions";
-import { extractProductLinks } from "./extract-products";
+import * as admin from "firebase-admin";
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-export const helloWorld = functions
-  .runWith({
-    timeoutSeconds: 120,
-    memory: "2GB",
-  })
-  .https.onRequest((request, response) => {
-    functions.logger.info("Hello logs!", { structuredData: true });
-    response.send("Hello from Firebase!");
-  });
+import { extractProductLinks } from "./libs/extract-products";
+import { storeNewProducts } from "./libs/store-new-products";
 
-export const productLinks = functions.https.onRequest(
-  async (request, response) => {
+admin.initializeApp();
+
+export const checkProducts = functions
+  .region("europe-west1")
+  .https.onRequest(async (request, response) => {
     const url =
       "https://www.nike.com/nl/w/heren-sale-nike-air-max-lifestyle-13jrmz1m67gz3yaepz7yfbz98pddznik1";
 
@@ -30,6 +23,7 @@ export const productLinks = functions.https.onRequest(
       searchTitle
     );
 
+    await storeNewProducts(productLinksResult);
+
     response.send(productLinksResult);
-  }
-);
+  });
