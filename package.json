@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "firebase": "firebase",
+    "firebase:emulator": "firebase emulators:start",
     "start": "ts-node src/index.ts"
   },
   "repository": "https://github.com/jwbaart/nike-sales-tracker.git",

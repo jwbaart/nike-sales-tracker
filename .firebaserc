@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "nike-sales-tracker"
+    "default": "nike-sales-tracker",
+    "prod": "nike-sales-tracker"
   }
 }
