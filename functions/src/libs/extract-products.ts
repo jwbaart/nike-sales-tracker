@@ -16,6 +16,7 @@ export const extractProductLinks = async (
 
   const html = await page.content();
   const $ = cheerio.load(html);
+  // TODO: scroll down until are products are loaded
   const $products = $(".product-card");
   const getProductLink = (i: number, el: any) =>
     $(el).find(productLinkSelector).attr("href");
