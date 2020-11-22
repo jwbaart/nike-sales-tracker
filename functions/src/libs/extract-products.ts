@@ -1,34 +1,44 @@
 import cheerio from "cheerio";
 import puppeteer from "puppeteer";
 
+export class ProductExtracted {
+  constructor(public id: string, public url: string, public title: string) {}
+}
+
 export const extractProductLinks = async (
-  url: string,
+  pageUrl: string,
   productLinkSelector: string,
   productTitleSelector: string,
   searchTitle: string
-): Promise<string[]> => {
+): Promise<ProductExtracted[]> => {
   const browser = await puppeteer.launch({
     args: ["--no-sandbox"],
   });
   const page = await browser.newPage();
-
-  await page.goto(url, { waitUntil: "networkidle2" });
-
+  await page.goto(pageUrl, { waitUntil: "networkidle2" });
   const html = await page.content();
   const $ = cheerio.load(html);
-  // TODO: scroll down until are products are loaded
+
+  // TODO: scroll down until all are products are loaded
   const $products = $(".product-card");
-  const getProductLink = (i: number, el: any) =>
-    $(el).find(productLinkSelector).attr("href");
 
   const productContainsSearchTitle = (i: number, el: any) =>
     $(el).find(productTitleSelector).text().includes(searchTitle);
 
-  const productLinks = $products
+  const extractProductInformation = (i: number, el: any): ProductExtracted => {
+    const url: string = $(el).find(productLinkSelector).attr("href") || "";
+    const id = url.split("/").pop() || "";
+    const title = $(el).find(productTitleSelector).text() || "";
+
+    return new ProductExtracted(url, id, title);
+  };
+
+  const products: ProductExtracted[] = $products
     .filter(productContainsSearchTitle)
-    .map(getProductLink)
+    .map(extractProductInformation)
     .get();
 
   browser.disconnect();
-  return productLinks;
+  // return productLinks;
+  return products;
 };
