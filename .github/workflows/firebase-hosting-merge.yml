@@ -10,11 +10,17 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: "10.x"
+          node-version: "12.x"
       - uses: bahmutov/npm-install@v1
       - uses: bahmutov/npm-install@v1
         with:
           working-directory: functions
-      - run: yarn deploy
+      - run: yarn build
+        with:
+          working-directory: functions
+      - run: yarn firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
         env:
             FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - run: yarn deploy
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
