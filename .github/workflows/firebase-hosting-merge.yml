@@ -15,12 +15,9 @@ jobs:
       - uses: bahmutov/npm-install@v1
         with:
           working-directory: functions
-      - run: yarn build
-        with:
-          working-directory: functions
       - run: yarn firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
         env:
-            FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - run: yarn deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
