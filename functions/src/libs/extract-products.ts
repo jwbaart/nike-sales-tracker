@@ -27,10 +27,10 @@ export const extractProductLinks = async (
 
   const extractProductInformation = (i: number, el: any): ProductExtracted => {
     const url: string = $(el).find(productLinkSelector).attr("href") || "";
-    const id = url.split("/").pop() || "";
-    const title = $(el).find(productTitleSelector).text() || "";
+    const id: string = url.split("/").pop() || "";
+    const title: string = $(el).find(productTitleSelector).text() || "";
 
-    return new ProductExtracted(url, id, title);
+    return new ProductExtracted(id, url, title);
   };
 
   const products: ProductExtracted[] = $products

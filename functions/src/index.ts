@@ -5,9 +5,12 @@ import { extractProductLinks } from "./libs/extract-products";
 import { storeNewProducts } from "./libs/store-new-products";
 import { setAllProductsToInactive } from "./libs/set-all-products-to-inactive";
 
-admin.initializeApp();
+admin.initializeApp({ credential: admin.credential.applicationDefault() });
 
 export const checkProducts = functions
+  .runWith({
+    memory: "2GB",
+  })
   .region("europe-west1")
   .https.onRequest(async (request, response) => {
     const url =
@@ -28,4 +31,18 @@ export const checkProducts = functions
     await storeNewProducts(productLinksResult);
 
     response.send(productLinksResult);
+  });
+
+export const sendNotifications = functions
+  .region("europe-west1")
+  .firestore.document("products/{productId}")
+  .onCreate(async (snapshot, context) => {
+    await (await import("./product/on-create")).default(snapshot, context);
+  });
+
+export const sendNotificationsOnChange = functions
+  .region("europe-west1")
+  .firestore.document("products/{productId}")
+  .onUpdate(async (snapshot, context) => {
+    await (await import("./product/on-change")).default(snapshot, context);
   });
