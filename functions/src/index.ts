@@ -18,13 +18,15 @@ export const checkProducts = functions
 
     const productLinkSelector = ".product-card__link-overlay";
     const productTitleSelector = ".product-card__title";
+    const productImageSelector = ".product-card__hero-image img";
     const searchTitle = "Nike Air Max 90";
 
     const productLinksResult = await extractProductLinks(
       url,
       productLinkSelector,
       productTitleSelector,
-      searchTitle
+      searchTitle,
+      productImageSelector
     );
 
     await setAllProductsToInactive();

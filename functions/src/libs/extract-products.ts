@@ -2,14 +2,20 @@ import cheerio from "cheerio";
 import puppeteer from "puppeteer";
 
 export class ProductExtracted {
-  constructor(public id: string, public url: string, public title: string) {}
+  constructor(
+    public id: string,
+    public url: string,
+    public title: string,
+    public imageUrl: string
+  ) {}
 }
 
 export const extractProductLinks = async (
   pageUrl: string,
   productLinkSelector: string,
   productTitleSelector: string,
-  searchTitle: string
+  searchTitle: string,
+  productImageSelector: string
 ): Promise<ProductExtracted[]> => {
   const browser = await puppeteer.launch({
     args: ["--no-sandbox"],
@@ -29,8 +35,9 @@ export const extractProductLinks = async (
     const url: string = $(el).find(productLinkSelector).attr("href") || "";
     const id: string = url.split("/").pop() || "";
     const title: string = $(el).find(productTitleSelector).text() || "";
+    const imageUrl: string = $(el).find(productImageSelector).attr("src") || "";
 
-    return new ProductExtracted(id, url, title);
+    return new ProductExtracted(id, url, title, imageUrl);
   };
 
   const products: ProductExtracted[] = $products

@@ -4,8 +4,8 @@ import { getProductsCollection, Product } from "./products";
 export const storeNewProducts = async (
   productInformations: ProductExtracted[]
 ) =>
-  productInformations.forEach(async ({ id, url, title }) => {
-    const product: Product = new Product(id, url, title);
+  productInformations.forEach(async ({ id, url, title, imageUrl }) => {
+    const product: Product = new Product(id, url, title, imageUrl);
 
     try {
       await getProductsCollection()
