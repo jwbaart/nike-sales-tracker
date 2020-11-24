@@ -5,12 +5,11 @@ importScripts("/__/firebase/init.js");
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function (payload) {
+  console.log("onBackgroundMessage payload", payload);
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    // TODO: Generate icon based on Nike image(online API service?)
-    // icon: "/firebase-logo.png",
-    icon: payload.notification.imageUrl,
+    icon: payload.data.icon,
     data: payload.data,
     requireInteraction: true,
   };

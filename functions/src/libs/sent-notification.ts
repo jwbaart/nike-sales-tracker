@@ -5,27 +5,29 @@ export interface Notification {
   title: string;
   body: string;
   url: string;
-  imageUrl: string;
+  icon: string;
 }
 
 export const sentNotification = async ({
   title = "",
   body = "",
   url = "",
-  imageUrl = "",
+  icon = "",
 }: Notification) => {
-  // const mobileToken: string = functions.config().cmtoken.chromemobile;
-  const prodToken: string = functions.config().cmtoken.chromedesktop;
+  // const chromeMobileToken: string = functions.config().cmtoken.chromemobile;
+  const chromeDesktopToken: string = functions.config().cmtoken.chromedesktop;
+  // const chromeLocalhostToken: string = functions.config().cmtoken
+  //   .chromelocalhost;
 
-  const tokens: string[] = [prodToken];
+  const tokens: string[] = [chromeDesktopToken];
 
   const message = {
     notification: {
       title,
       body,
-      imageUrl,
     },
     data: {
+      icon,
       url,
     },
     tokens,

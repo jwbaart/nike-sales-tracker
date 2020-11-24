@@ -25,3 +25,4 @@ export default async (context: functions.EventContext) => {
 
   return null;
 };
+

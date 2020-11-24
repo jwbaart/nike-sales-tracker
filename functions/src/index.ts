@@ -4,7 +4,7 @@ import * as admin from "firebase-admin";
 admin.initializeApp({ credential: admin.credential.applicationDefault() });
 const defaultRegion = "europe-west1";
 
-export const scheduledNikeShoes = functions
+export const scheduledNikeShoesCheck = functions
   .runWith({ memory: "2GB" })
   .region(defaultRegion)
   .pubsub.schedule("* 7-21 * * *")
@@ -13,14 +13,14 @@ export const scheduledNikeShoes = functions
     await (await import("./product/check-for-new-nike-shoes")).default(context);
   });
 
-export const sendNotifications = functions
+export const handleCreatedProduct = functions
   .region(defaultRegion)
   .firestore.document("products/{productId}")
   .onCreate(async (snapshot, context) => {
     await (await import("./product/on-create")).default(snapshot, context);
   });
 
-// export const sendNotificationsOnChange = functions
+// export const handleChangedProduct = functions
 //   .region(defaultRegion)
 //   .firestore.document("products/{productId}")
 //   .onUpdate(async (snapshot, context) => {
