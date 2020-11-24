@@ -25,7 +25,6 @@ fetch("/__/firebase/init.json").then(async (response) => {
   // - the user clicks on an app notification created by a service worker
   //   `messaging.setBackgroundMessageHandler` handler.
   messaging.onMessage((payload) => {
-    console.log("Message received. ", payload);
     // [START_EXCLUDE]
     // Update the UI to include the received message.
     appendMessage(payload);
