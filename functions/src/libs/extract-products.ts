@@ -25,9 +25,6 @@ export const extractProductLinks = async (
   const html = await page.content();
   const $ = cheerio.load(html);
 
-  // TODO: scroll down until all are products are loaded
-  const $products = $(".product-card");
-
   const productContainsSearchTitle = (i: number, el: any) =>
     $(el).find(productTitleSelector).text().includes(searchTitle);
 
@@ -40,12 +37,40 @@ export const extractProductLinks = async (
     return new ProductExtracted(id, url, title, imageUrl);
   };
 
+  const scrollToPageBottom = async () => {
+    await page.evaluate((_) => window.scrollTo(0, document.body.scrollHeight));
+    return page.waitForTimeout(500);
+  };
+
+  const isSpinnerPresent = async () => {
+    return await page.evaluate(
+      () => !!document.querySelector(".product-grid__items .loader-overlay")
+    );
+  };
+
+  const scrollToLastProduct = async () => {
+    let numberOfRound: number = 0;
+    const maxNumberOfRounds: number = 10;
+    let spinnerPresent: boolean = true;
+
+    do {
+      await scrollToPageBottom();
+      spinnerPresent = !!(await isSpinnerPresent());
+
+      console.log("numberOfRound", numberOfRound);
+      numberOfRound++;
+    } while (spinnerPresent && numberOfRound < maxNumberOfRounds);
+  };
+
+  await page.click("#hf_cookie_text_cookieAccept");
+  await scrollToLastProduct();
+
+  const $products = $(".product-card");
   const products: ProductExtracted[] = $products
     .filter(productContainsSearchTitle)
     .map(extractProductInformation)
     .get();
 
   browser.disconnect();
-  // return productLinks;
   return products;
 };

@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+// import { extractProductLinks } from "./libs/extract-products";
 
 admin.initializeApp({ credential: admin.credential.applicationDefault() });
 const defaultRegion = "europe-west1";
@@ -25,4 +26,26 @@ export const handleCreatedProduct = functions
 //   .firestore.document("products/{productId}")
 //   .onUpdate(async (snapshot, context) => {
 //     await (await import("./product/on-change")).default(snapshot, context);
+//   });
+
+// export const extractProduct = functions
+//   .runWith({ memory: "2GB" })
+//   .https.onRequest(async (request, response) => {
+//     const url =
+//       "https://www.nike.com/nl/w/heren-sale-nike-lifestyle-13jrmz1m67gz3yaepz7yfbznik1";
+
+//     const productLinkSelector = ".product-card__link-overlay";
+//     const productTitleSelector = ".product-card__title";
+//     const productImageSelector = ".product-card__hero-image img";
+//     const searchTitle = "Nike Air Max 90";
+
+//     const productLinksResult = await extractProductLinks(
+//       url,
+//       productLinkSelector,
+//       productTitleSelector,
+//       searchTitle,
+//       productImageSelector
+//     );
+
+//     response.send(productLinksResult);
 //   });
