@@ -14,12 +14,12 @@ export const sentNotification = async ({
   url = "",
   icon = "",
 }: Notification) => {
-  // const chromeMobileToken: string = functions.config().cmtoken.chromemobile;
+  const chromeMobileToken: string = functions.config().cmtoken.chromemobile;
   const chromeDesktopToken: string = functions.config().cmtoken.chromedesktop;
   // const chromeLocalhostToken: string = functions.config().cmtoken
   //   .chromelocalhost;
 
-  const tokens: string[] = [chromeDesktopToken];
+  const tokens: string[] = [chromeDesktopToken, chromeMobileToken];
 
   const message = {
     notification: {

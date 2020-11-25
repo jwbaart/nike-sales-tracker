@@ -7,7 +7,7 @@ const defaultRegion = "europe-west1";
 export const scheduledNikeShoesCheck = functions
   .runWith({ memory: "2GB" })
   .region(defaultRegion)
-  .pubsub.schedule("* 7-21 * * *")
+  .pubsub.schedule("0 7-21 * * *")
   .timeZone("Europe/Amsterdam")
   .onRun(async (context) => {
     await (await import("./product/check-for-new-nike-shoes")).default(context);
