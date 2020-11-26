@@ -49,3 +49,12 @@ export const handleCreatedProduct = functions
 
 //     response.send(productLinksResult);
 //   });
+
+export const messagingToken = functions
+  .region("europe-west1")
+  .https.onRequest(async (request, response) => {
+    return (await import("./messagingToken/messagingToken")).default(
+      request,
+      response
+    );
+  });

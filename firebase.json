@@ -32,6 +32,10 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
+        "source": "/messagingToken",
+        "function": "messagingToken"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

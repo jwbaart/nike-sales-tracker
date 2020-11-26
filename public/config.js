@@ -8,7 +8,7 @@ fetch("/__/firebase/init.json").then(async (response) => {
     appId,
   };
 
-  firebase.initializeApp(completedFirebaseConfig);
+  const app = firebase.initializeApp(completedFirebaseConfig);
 
   // [START get_messaging_object]
   // Retrieve Firebase Messaging object.
@@ -75,9 +75,19 @@ fetch("/__/firebase/init.json").then(async (response) => {
   // - send messages back to this app
   // - subscribe/unsubscribe the token from topics
   function sendTokenToServer(currentToken) {
+    const addTokenInDb = (id) => {
+      return fetch("/messagingToken", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: currentToken }),
+      });
+    };
     if (!isTokenSentToServer()) {
       console.log("Sending token to server...");
       // TODO(developer): Send the current token to your server.
+      addTokenInDb(currentToken);
       setTokenSentToServer(true);
     } else {
       console.log(
@@ -124,6 +134,16 @@ fetch("/__/firebase/init.json").then(async (response) => {
   }
 
   function deleteToken() {
+    const deleteTokenInDb = (id) => {
+      return fetch("/messagingToken", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+    };
+
     // Delete registraion token.
     // [START delete_token]
     messaging
@@ -143,7 +163,9 @@ fetch("/__/firebase/init.json").then(async (response) => {
             console.log("Unable to delete token. ", err);
           });
         // [END delete_token]
+        return currentToken;
       })
+      .then(deleteTokenInDb)
       .catch((err) => {
         console.log("Error retrieving registration token. ", err);
         showToken("Error retrieving registration token. ", err);
@@ -181,5 +203,8 @@ fetch("/__/firebase/init.json").then(async (response) => {
     showHideDiv(permissionDivId, true);
   }
 
+  document
+    .getElementById("deleteButton")
+    .addEventListener("click", deleteToken);
   resetUI();
 });
