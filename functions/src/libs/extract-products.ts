@@ -62,6 +62,7 @@ export const extractProductLinks = async (
     } while (spinnerPresent && numberOfRound < maxNumberOfRounds);
   };
 
+  await page.waitForSelector("#hf_cookie_text_cookieAccept");
   await page.click("#hf_cookie_text_cookieAccept");
   await scrollToLastProduct();
 
