@@ -1,5 +1,6 @@
 import cheerio from "cheerio";
 import puppeteer from "puppeteer";
+import { generateScreenShot, saveScreenShot } from "./screenshot";
 
 export class ProductExtracted {
   constructor(
@@ -18,6 +19,7 @@ export const extractProductLinks = async (
   productImageSelector: string
 ): Promise<ProductExtracted[]> => {
   const browser = await puppeteer.launch({
+    // headless: false,
     args: ["--no-sandbox"],
   });
   const page = await browser.newPage();
@@ -62,9 +64,15 @@ export const extractProductLinks = async (
     } while (spinnerPresent && numberOfRound < maxNumberOfRounds);
   };
 
-  await page.waitForSelector("#hf_cookie_text_cookieAccept");
-  await page.click("#hf_cookie_text_cookieAccept");
-  await scrollToLastProduct();
+  try {
+    await page.waitForSelector("#hf_cookie_text_cookieAccept");
+    await page.click("#hf_cookie_text_cookieAccept");
+    await scrollToLastProduct();
+  } catch {
+    console.error("extract-product: screenshot created");
+    const screenshot = await generateScreenShot(page);
+    await saveScreenShot(screenshot);
+  }
 
   const $products = $(".product-card");
   const products: ProductExtracted[] = $products
