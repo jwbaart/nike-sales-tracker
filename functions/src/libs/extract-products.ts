@@ -51,17 +51,18 @@ export const extractProductLinks = async (
   };
 
   const scrollToLastProduct = async () => {
-    let numberOfRound: number = 0;
-    const maxNumberOfRounds: number = 10;
+    let numberOfScrollRounds: number = 0;
+    const maxNumberOfScrollRounds: number = 10;
     let spinnerPresent: boolean = true;
 
     do {
       await scrollToPageBottom();
       spinnerPresent = !!(await isSpinnerPresent());
 
-      console.log("numberOfRound", numberOfRound);
-      numberOfRound++;
-    } while (spinnerPresent && numberOfRound < maxNumberOfRounds);
+      numberOfScrollRounds++;
+    } while (spinnerPresent && numberOfScrollRounds < maxNumberOfScrollRounds);
+
+    console.log("numberOfSrollRounds", numberOfScrollRounds);
   };
 
   try {
