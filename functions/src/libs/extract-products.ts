@@ -65,8 +65,10 @@ export const extractProductLinks = async (
   };
 
   try {
-    await page.waitForSelector("#hf_cookie_text_cookieAccept");
-    await page.click("#hf_cookie_text_cookieAccept");
+    await page.waitForSelector(".hf-geomismatch-btn");
+    await page.click(".hf-geomismatch-btn");
+    // await page.waitForSelector("#hf_cookie_text_cookieAccept");
+    // await page.click("#hf_cookie_text_cookieAccept");
     await scrollToLastProduct();
   } catch {
     console.error("extract-product: screenshot created");
