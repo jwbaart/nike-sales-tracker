@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions";
-import { createIconOfPublicImage } from "../libs/create-icon";
-import { Product } from "../libs/products";
-import { sentNotification } from "../libs/sent-notification";
+import { createIconOfPublicImage } from "../../libs/create-icon";
+import { sentNotification } from "../../libs/sent-notification";
+import { Product } from "../products";
 
 export default async (
   snapshot: functions.firestore.DocumentSnapshot,
@@ -26,6 +26,8 @@ export default async (
     body: `${product.price} to ${product.reducedPrice}`,
     url: product.url,
     icon,
-  }).catch((error) => console.error("sendNotifications sent error", error));
+  }).catch((error: Error) =>
+    console.error("sendNotifications sent error", error)
+  );
   return;
 };

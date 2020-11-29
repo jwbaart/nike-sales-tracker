@@ -1,5 +1,5 @@
 import * as admin from "firebase-admin";
-import { getMessagingTokensId } from "../messagingToken/messagingToken";
+import { getMessagingTokensId } from "../messagingToken/firestore/firestore";
 
 export interface Notification {
   title: string;
@@ -16,7 +16,7 @@ export const sentNotification = async ({
 }: Notification) => {
   const tokens: string[] = await getMessagingTokensId();
 
-  const message = {
+  const message: admin.messaging.MulticastMessage = {
     // This will directly send a notification to the user without fiddling in the service worker
     // notification: {
     //   title,

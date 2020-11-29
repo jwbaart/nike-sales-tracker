@@ -1,4 +1,4 @@
-import { getProductsCollection } from "./products";
+import { getProductsCollection } from "./firestore";
 
 export const setAllProductsToInactive = async () => {
   return await getProductsCollection()

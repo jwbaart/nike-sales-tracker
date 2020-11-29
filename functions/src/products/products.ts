@@ -1,5 +1,5 @@
 import { firestore } from "firebase-admin";
-import { ProductExtracted } from "./extract-products";
+import { ProductExtracted } from "./extract-products-from-page";
 
 export class Product extends ProductExtracted {
   constructor(
@@ -17,6 +17,3 @@ export class Product extends ProductExtracted {
   }
 }
 
-export const getProductsCollection = (): firestore.CollectionReference<
-  firestore.DocumentData
-> => firestore().collection("products");

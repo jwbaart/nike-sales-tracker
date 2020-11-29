@@ -1,5 +1,6 @@
-import { ProductExtracted } from "./extract-products";
-import { getProductsCollection, Product } from "./products";
+import { getProductsCollection } from "./firestore";
+import { ProductExtracted } from "../extract-products-from-page";
+import { Product } from "../products";
 
 export const storeNewProducts = async (
   productInformations: ProductExtracted[]

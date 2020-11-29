@@ -1,6 +1,6 @@
 import cheerio from "cheerio";
 import puppeteer from "puppeteer";
-import { generateScreenShot, saveScreenShot } from "./screenshot";
+import { takeAndStoreScreenshot } from "../libs/screenshot";
 
 export class ProductExtracted {
   constructor(
@@ -13,7 +13,7 @@ export class ProductExtracted {
   ) {}
 }
 
-export const extractProductLinks = async (
+export const extractProductsFromPage = async (
   pageUrl: string,
   productLinkSelector: string,
   productTitleSelector: string,
@@ -69,8 +69,7 @@ export const extractProductLinks = async (
       numberOfScrollRounds++;
     } while (spinnerPresent && numberOfScrollRounds < maxNumberOfScrollRounds);
 
-    const screenshot = await generateScreenShot(page);
-    await saveScreenShot(screenshot, "scrollToLastProduct");
+    await takeAndStoreScreenshot(page, "scrollToLastProduct");
 
     console.log("numberOfSrollRounds", numberOfScrollRounds);
   };
@@ -83,8 +82,7 @@ export const extractProductLinks = async (
     await scrollToLastProduct();
   } catch {
     console.error("extract-product: screenshot created");
-    const screenshot = await generateScreenShot(page);
-    await saveScreenShot(screenshot, "lastExtractProductError");
+    await takeAndStoreScreenshot(page, "lastExtractProductError");
   }
 
   const $products = $(".product-card");

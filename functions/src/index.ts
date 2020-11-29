@@ -12,21 +12,26 @@ export const scheduledNikeShoesCheck = functions
   .pubsub.schedule("0 7-21 * * *")
   .timeZone("Europe/Amsterdam")
   .onRun(async (context) => {
-    await (await import("./product/check-for-new-nike-shoes")).default(context);
+    await (
+      await import("./products/check-for-new-nike-shoes.function")
+    ).default(context);
   });
 
 export const handleCreatedProduct = functions
   .region(defaultRegion)
   .firestore.document("products/{productId}")
   .onCreate(async (snapshot, context) => {
-    await (await import("./product/on-create")).default(snapshot, context);
+    await (await import("./products/firestore/on-create.function")).default(
+      snapshot,
+      context
+    );
   });
 
 // export const handleChangedProduct = functions
 //   .region(defaultRegion)
 //   .firestore.document("products/{productId}")
 //   .onUpdate(async (snapshot, context) => {
-//     await (await import("./product/on-change")).default(snapshot, context);
+//     await (await import("./product/firestore/on-change")).default(snapshot, context);
 //   });
 
 // export const extractProduct = functions
@@ -59,7 +64,7 @@ export const handleCreatedProduct = functions
 
 export const messagingToken = functions.https // .region("europe-west1") // Firebase rewrites only supports us-central1
   .onRequest(async (request, response) => {
-    return (await import("./messagingToken/messagingToken")).default(
+    return (await import("./messagingToken/messagingToken.function")).default(
       request,
       response
     );

@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions";
-import { createIconOfPublicImage } from "../libs/create-icon";
-import { Product } from "../libs/products";
-import { sentNotification } from "../libs/sent-notification";
+import { createIconOfPublicImage } from "../../libs/create-icon";
+import { Product } from "../products";
+import { sentNotification } from "../../libs/sent-notification";
 
 export default async (
   change: functions.Change<functions.firestore.DocumentSnapshot>,

@@ -2,9 +2,15 @@ import puppeteer from "puppeteer";
 import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
 
-export const generateScreenShot = async (
-  page: puppeteer.Page
-): Promise<string> => {
+export const takeAndStoreScreenshot = async (
+  page: puppeteer.Page,
+  name: string
+) => {
+  const screenshot = await generateScreenShot(page);
+  await saveScreenShot(screenshot, name);
+};
+
+const generateScreenShot = async (page: puppeteer.Page): Promise<string> => {
   return new Promise<string>(async (resolve, reject) => {
     try {
       // Take the screenshot
@@ -17,7 +23,7 @@ export const generateScreenShot = async (
   });
 };
 
-export const saveScreenShot = async (
+const saveScreenShot = async (
   imageBuffer: string,
   name: string
 ): Promise<string> => {
