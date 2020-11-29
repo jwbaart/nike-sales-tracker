@@ -7,7 +7,9 @@ export class ProductExtracted {
     public id: string,
     public url: string,
     public title: string,
-    public imageUrl: string
+    public imageUrl: string,
+    public price: string,
+    public reducedPrice: string
   ) {}
 }
 
@@ -16,7 +18,9 @@ export const extractProductLinks = async (
   productLinkSelector: string,
   productTitleSelector: string,
   searchTitle: string,
-  productImageSelector: string
+  productImageSelector: string,
+  priceSelector: string,
+  reducedPriceSelector: string
 ): Promise<ProductExtracted[]> => {
   const browser = await puppeteer.launch({
     // headless: false,
@@ -36,7 +40,10 @@ export const extractProductLinks = async (
     const title: string = $(el).find(productTitleSelector).text() || "";
     const imageUrl: string = $(el).find(productImageSelector).attr("src") || "";
 
-    return new ProductExtracted(id, url, title, imageUrl);
+    const price: string = $(el).find(priceSelector).text() || "";
+    const reducedPrice: string = $(el).find(reducedPriceSelector).text() || "";
+
+    return new ProductExtracted(id, url, title, imageUrl, price, reducedPrice);
   };
 
   const scrollToPageBottom = async () => {

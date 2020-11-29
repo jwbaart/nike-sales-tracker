@@ -10,6 +10,8 @@ export default async (context: functions.EventContext) => {
   const productLinkSelector = ".product-card__link-overlay";
   const productTitleSelector = ".product-card__title";
   const productImageSelector = ".product-card__hero-image img";
+  const priceSelector = "[data-test='product-price']";
+  const reducedPriceSelector = "[data-test='product-price-reduced']";
   const searchTitle = "Nike Air Max 90";
 
   const productLinksResult = await extractProductLinks(
@@ -17,7 +19,9 @@ export default async (context: functions.EventContext) => {
     productLinkSelector,
     productTitleSelector,
     searchTitle,
-    productImageSelector
+    productImageSelector,
+    priceSelector,
+    reducedPriceSelector
   );
 
   await setAllProductsToInactive();
@@ -25,4 +29,3 @@ export default async (context: functions.EventContext) => {
 
   return null;
 };
-

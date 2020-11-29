@@ -23,7 +23,7 @@ export default async (
 
   await sentNotification({
     title: product.title,
-    body: product.url,
+    body: `${product.price} to ${product.reducedPrice}`,
     url: product.url,
     icon,
   }).catch((error) => console.error("sendNotifications sent error", error));
