@@ -34,7 +34,12 @@ fetch("/__/firebase/init.json").then(async (response) => {
   // [END receive_message]
 
   const db = firebase.firestore();
-  db.useEmulator("localhost", 8080);
+  const url = window.location.href;
+  const isOnLocalhost = url.includes("localhost");
+
+  if (isOnLocalhost) {
+    db.useEmulator("localhost", 8080);
+  }
 
   const activeProducts = await getActiveProducts();
 
