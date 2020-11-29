@@ -18,6 +18,7 @@ fetch("/__/firebase/init.json").then(async (response) => {
   // IDs of divs that display registration token UI or request permission UI.
   const tokenDivId = "token_div";
   const permissionDivId = "permission_div";
+  const productListDivId = "product_list";
 
   // [START receive_message]
   // Handle incoming messages. Called when:
@@ -31,6 +32,13 @@ fetch("/__/firebase/init.json").then(async (response) => {
     // [END_EXCLUDE]
   });
   // [END receive_message]
+
+  const db = firebase.firestore();
+  db.useEmulator("localhost", 8080);
+
+  const activeProducts = await getActiveProducts();
+
+  showProducts(activeProducts);
 
   function resetUI() {
     clearMessages();
@@ -69,6 +77,47 @@ fetch("/__/firebase/init.json").then(async (response) => {
     // Show token in console and UI.
     const tokenElement = document.querySelector("#token");
     tokenElement.textContent = currentToken;
+  }
+
+  async function getActiveProducts() {
+    const activeProductsRef = await db
+      .collection("products")
+      .where("active", "==", true)
+      .get();
+
+    let activeProducts = [];
+    activeProductsRef.forEach((doc) => activeProducts.push(doc.data()));
+
+    return activeProducts;
+  }
+
+  function showProducts(products) {
+    const productsElement = document.getElementById(productListDivId);
+
+    products.forEach((product) => {
+      const li = document.createElement("li");
+
+      const link = document.createElement("a");
+      link.href = product.url;
+      link.title = "Link";
+      link.target = "_blank";
+
+      const title = document.createElement("h5");
+      title.textContent = product.title;
+      link.appendChild(title);
+
+      const body = document.createElement("p");
+      body.innerText = `${product.price} to ${product.reducedPrice}`;
+      link.appendChild(body);
+
+      const icon = document.createElement("img");
+      icon.src = product.icon;
+      link.appendChild(icon);
+
+      li.appendChild(link);
+
+      productsElement.appendChild(li);
+    });
   }
 
   // Send the registration token your application server, so that it can:
@@ -205,5 +254,10 @@ fetch("/__/firebase/init.json").then(async (response) => {
   document
     .getElementById("deleteButton")
     .addEventListener("click", deleteToken);
+
+  document
+    .getElementById("requestPermissionButton")
+    .addEventListener("click", requestPermission);
+
   resetUI();
 });

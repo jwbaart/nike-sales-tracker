@@ -53,6 +53,11 @@
                   Delete Token
                 </button>
               </div>
+
+              <div>
+                <h4>Products</h4>
+                <ul id="product_list"></ul>
+              </div>
               <!-- div to display the UI to allow the request for permission to
                notify the user. This is shown if the app has not yet been
                granted permission to notify. -->
@@ -61,7 +66,7 @@
                 <p id="token"></p>
                 <button
                   class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                  onclick="requestPermission()"
+                  id="requestPermissionButton"
                 >
                   Request Permission
                 </button>
@@ -79,6 +84,7 @@
     <!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
     <script src="/__/firebase/8.0.1/firebase-app.js"></script>
     <script src="/__/firebase/8.0.1/firebase-messaging.js"></script>
+    <script src="/__/firebase/8.0.1/firebase-firestore.js"></script>
     <!-- <script src="/__/firebase/init.js"></script> -->
     <script src="/config.js"></script>
   </body>

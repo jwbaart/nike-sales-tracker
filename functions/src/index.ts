@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-// import { extractProductLinks } from "./libs/extract-products";
-// import { storeNewProducts } from "./libs/store-new-products";
+// import { extractProductsFromPage } from "./products/extract-products-from-page";
+// import { storeNewProducts } from "./products/firestore/store-new-products";
 
 admin.initializeApp({ credential: admin.credential.applicationDefault() });
 const defaultRegion = "europe-west1";
@@ -47,7 +47,7 @@ export const handleCreatedProduct = functions
 //     const reducedPriceSelector = "[data-test='product-price-reduced']";
 //     const searchTitle = "Nike Air Max 90";
 
-//     const productLinksResult = await extractProductLinks(
+//     const productLinksResult = await extractProductsFromPage(
 //       url,
 //       productLinkSelector,
 //       productTitleSelector,
