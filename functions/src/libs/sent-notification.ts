@@ -1,5 +1,5 @@
 import * as admin from "firebase-admin";
-import * as functions from "firebase-functions";
+import { getMessagingTokensId } from "../messagingToken/messagingToken";
 
 export interface Notification {
   title: string;
@@ -14,19 +14,17 @@ export const sentNotification = async ({
   url = "",
   icon = "",
 }: Notification) => {
-  const chromeMobileToken: string = functions.config().cmtoken.chromemobile;
-  const chromeDesktopToken: string = functions.config().cmtoken.chromedesktop;
-  // const chromeLocalhostToken: string = functions.config().cmtoken
-  //   .chromelocalhost;
-
-  const tokens: string[] = [chromeDesktopToken, chromeMobileToken];
+  const tokens: string[] = await getMessagingTokensId();
 
   const message = {
-    notification: {
+    // This will directly send a notification to the user without fiddling in the service worker
+    // notification: {
+    //   title,
+    //   body,
+    // },
+    data: {
       title,
       body,
-    },
-    data: {
       icon,
       url,
     },

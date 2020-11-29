@@ -74,7 +74,7 @@ fetch("/__/firebase/init.json").then(async (response) => {
   // Send the registration token your application server, so that it can:
   // - send messages back to this app
   // - subscribe/unsubscribe the token from topics
-  function sendTokenToServer(currentToken) {
+  async function sendTokenToServer(currentToken) {
     const addTokenInDb = (id) => {
       return fetch("/messagingToken", {
         method: "PUT",
@@ -86,7 +86,6 @@ fetch("/__/firebase/init.json").then(async (response) => {
     };
     if (!isTokenSentToServer()) {
       console.log("Sending token to server...");
-      // TODO(developer): Send the current token to your server.
       addTokenInDb(currentToken);
       setTokenSentToServer(true);
     } else {
@@ -133,7 +132,7 @@ fetch("/__/firebase/init.json").then(async (response) => {
     // [END request_permission]
   }
 
-  function deleteToken() {
+  async function deleteToken() {
     const deleteTokenInDb = (id) => {
       return fetch("/messagingToken", {
         method: "DELETE",
@@ -144,13 +143,14 @@ fetch("/__/firebase/init.json").then(async (response) => {
       });
     };
 
-    // Delete registraion token.
+    // Delete registration token.
     // [START delete_token]
     messaging
       .getToken()
       .then((currentToken) => {
         messaging
           .deleteToken(currentToken)
+          .then(() => deleteTokenInDb(currentToken))
           .then(() => {
             console.log("Token deleted.");
             setTokenSentToServer(false);
@@ -165,7 +165,6 @@ fetch("/__/firebase/init.json").then(async (response) => {
         // [END delete_token]
         return currentToken;
       })
-      .then(deleteTokenInDb)
       .catch((err) => {
         console.log("Error retrieving registration token. ", err);
         showToken("Error retrieving registration token. ", err);
