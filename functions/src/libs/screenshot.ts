@@ -17,7 +17,10 @@ export const generateScreenShot = async (
   });
 };
 
-export const saveScreenShot = async (imageBuffer: string): Promise<string> => {
+export const saveScreenShot = async (
+  imageBuffer: string,
+  name: string
+): Promise<string> => {
   return new Promise<string>(async (resolve, reject) => {
     if (!imageBuffer || imageBuffer === "") {
       reject("No screenshot");
@@ -31,7 +34,7 @@ export const saveScreenShot = async (imageBuffer: string): Promise<string> => {
         .bucket(functions.config().bucket.defaultname);
 
       // Create a file object
-      const file = bucket.file(`/screenshots/lastExtractProductError.png`);
+      const file = bucket.file(`/screenshots/${name}.png`);
 
       // Save the image
       await file.save(imageBuffer);

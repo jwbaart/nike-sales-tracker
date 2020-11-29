@@ -62,6 +62,9 @@ export const extractProductLinks = async (
       numberOfScrollRounds++;
     } while (spinnerPresent && numberOfScrollRounds < maxNumberOfScrollRounds);
 
+    const screenshot = await generateScreenShot(page);
+    await saveScreenShot(screenshot, "scrollToLastProduct");
+
     console.log("numberOfSrollRounds", numberOfScrollRounds);
   };
 
@@ -74,7 +77,7 @@ export const extractProductLinks = async (
   } catch {
     console.error("extract-product: screenshot created");
     const screenshot = await generateScreenShot(page);
-    await saveScreenShot(screenshot);
+    await saveScreenShot(screenshot, "lastExtractProductError");
   }
 
   const $products = $(".product-card");
