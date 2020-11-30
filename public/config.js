@@ -100,6 +100,7 @@ fetch("/__/firebase/init.json").then(async (response) => {
     const productsGridRow = document.getElementById(productListDivId);
 
     products.forEach((product) => {
+      console.log("product", product);
       const productElement = createProductElement(product);
       productElement.classList.add(
         "mdl-cell",
@@ -124,6 +125,9 @@ fetch("/__/firebase/init.json").then(async (response) => {
           width="100%"
           alt="${product.title}"
         />
+      </div>
+      <div class="mdl-card__supporting-text">
+        <h6>${product.price} voor ${product.reducedPrice}</h6>
       </div>
       <div class="mdl-card__actions">
         <a href="${product.url}" target="_blank" class="mdl-button mdl-button--colored">Visit</a>
