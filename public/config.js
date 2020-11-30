@@ -97,32 +97,41 @@ fetch("/__/firebase/init.json").then(async (response) => {
   }
 
   function showProducts(products) {
-    const productsElement = document.getElementById(productListDivId);
+    const productsGridRow = document.getElementById(productListDivId);
 
     products.forEach((product) => {
-      const li = document.createElement("li");
+      const productElement = createProductElement(product);
+      productElement.classList.add(
+        "mdl-cell",
+        "mdl-cell--12-col-phone",
+        "mdl-cell--4-col-tablet",
+        "mdl-cell--4-col-desktop"
+      );
 
-      const link = document.createElement("a");
-      link.href = product.url;
-      link.title = "Link";
-      link.target = "_blank";
-
-      const title = document.createElement("h5");
-      title.textContent = product.title;
-      link.appendChild(title);
-
-      const body = document.createElement("p");
-      body.innerText = `${product.price} to ${product.reducedPrice}`;
-      link.appendChild(body);
-
-      const icon = document.createElement("img");
-      icon.src = product.icon;
-      link.appendChild(icon);
-
-      li.appendChild(link);
-
-      productsElement.appendChild(li);
+      productsGridRow.appendChild(productElement);
     });
+  }
+
+  function createProductElement(product) {
+    const cardElement = document.createElement("div");
+    const html = `<div class="mdl-card mdl-shadow--4dp">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">${product.title}</h2>
+      </div>
+      <div class="mdl-card__media">
+        <img
+          src="${product.imageUrl}"
+          width="100%"
+          alt="${product.title}"
+        />
+      </div>
+      <div class="mdl-card__actions">
+        <a href="${product.url}" target="_blank" class="mdl-button mdl-button--colored">Visit</a>
+      </div>
+    </div>`;
+    cardElement.innerHTML = html;
+    const node = cardElement.firstElementChild;
+    return node;
   }
 
   // Send the registration token your application server, so that it can:
