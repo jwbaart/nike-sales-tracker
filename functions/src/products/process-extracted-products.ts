@@ -13,7 +13,7 @@ export const processExtractedProduct = async (
   const isExistingProduct = await checkIfExistingProduct(productExtracted);
 
   if (isExistingProduct) {
-    return updateProduct(productExtracted);
+    return updateProduct({ ...productExtracted, active: true });
   } else {
     return createProduct(productExtracted);
   }
