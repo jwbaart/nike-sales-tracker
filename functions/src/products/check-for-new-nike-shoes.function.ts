@@ -1,7 +1,8 @@
 import * as functions from "firebase-functions";
 import { extractProductsFromPage } from "./extract-products-from-page";
-import { storeNewProducts } from "./firestore/store-new-products";
 import { setAllProductsToInactive } from "./firestore/set-all-products-to-inactive";
+import { processExtractedProducts } from "./process-extracted-products";
+import { ProductExtracted } from "./products";
 
 export default async (context: functions.EventContext) => {
   const url =
@@ -14,7 +15,7 @@ export default async (context: functions.EventContext) => {
   const reducedPriceSelector = "[data-test='product-price-reduced']";
   const searchTitle = "Nike Air Max 90";
 
-  const productLinksResult = await extractProductsFromPage(
+  const productLinksResult: ProductExtracted[] = await extractProductsFromPage(
     url,
     productLinkSelector,
     productTitleSelector,
@@ -25,7 +26,8 @@ export default async (context: functions.EventContext) => {
   );
 
   await setAllProductsToInactive();
-  await storeNewProducts(productLinksResult);
+  await processExtractedProducts(productLinksResult);
+  console.log(productLinksResult);
 
   return null;
 };

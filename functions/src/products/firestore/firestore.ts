@@ -1,5 +1,4 @@
 import { firestore } from "firebase-admin";
 
-export const getProductsCollection = (): firestore.CollectionReference<
-  firestore.DocumentData
-> => firestore().collection("products");
+export const productsCollection = (): firestore.CollectionReference<firestore.DocumentData> =>
+  firestore().collection("products");

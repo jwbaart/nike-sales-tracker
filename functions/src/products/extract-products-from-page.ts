@@ -1,17 +1,7 @@
 import cheerio from "cheerio";
 import puppeteer from "puppeteer";
 import { takeAndStoreScreenshot } from "../libs/screenshot";
-
-export class ProductExtracted {
-  constructor(
-    public id: string,
-    public url: string,
-    public title: string,
-    public imageUrl: string,
-    public price: string,
-    public reducedPrice: string
-  ) {}
-}
+import { ProductExtracted } from "./products";
 
 export const extractProductsFromPage = async (
   pageUrl: string,
@@ -43,7 +33,14 @@ export const extractProductsFromPage = async (
     const price: string = $(el).find(priceSelector).text() || "";
     const reducedPrice: string = $(el).find(reducedPriceSelector).text() || "";
 
-    return new ProductExtracted(id, url, title, imageUrl, price, reducedPrice);
+    return {
+      id,
+      url,
+      title,
+      imageUrl,
+      price,
+      reducedPrice,
+    };
   };
 
   const scrollToPageBottom = async () => {
