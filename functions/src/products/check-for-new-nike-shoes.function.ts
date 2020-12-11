@@ -6,7 +6,7 @@ import { ProductExtracted } from "./products";
 
 export default async (context: functions.EventContext) => {
   const url =
-    "https://www.nike.com/nl/w/heren-sale-nike-air-max-lifestyle-13jrmz1m67gz3yaepz7yfbz98pddznik1";
+    "https://www.nike.com/nl/w/heren-sale-air-max-90-lifestyle-schoenen-13jrmz1m67gz3yaepzauqmoznik1zy7ok?q=air%20max%2090";
 
   const productLinkSelector = ".product-card__link-overlay";
   const productTitleSelector = ".product-card__title";
