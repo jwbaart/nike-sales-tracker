@@ -1,12 +1,13 @@
 {
   "name": "nike-sales-tracker",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "firebase": "firebase",
+    "parcel": "parcel",
     "firebase:emulator": "firebase emulators:start",
-    "start": "ts-node src/index.ts",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "start": "parcel watch ./src/index.html & yarn firebase:emulator",
+    "build": "parcel build ./src/index.html"
   },
   "repository": "https://github.com/jwbaart/nike-sales-tracker.git",
   "author": "Jan-Willem Baart <jwbaart@gmail.com>",
@@ -15,8 +16,11 @@
   "devDependencies": {
     "axios": "^0.21.0",
     "firebase-tools": "^8.16.2",
+    "parcel": "next",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "firebase": "^8.1.2"
+  }
 }
