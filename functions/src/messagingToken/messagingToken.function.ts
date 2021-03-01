@@ -7,7 +7,7 @@ export default async (
   request: functions.https.Request,
   response: functions.Response
 ): Promise<void> => {
-  const { id } = request.body as MessagingToken;
+  const { id } = request.body.data as MessagingToken;
 
   if (id && id.length) {
     try {
@@ -18,6 +18,7 @@ export default async (
       }
     } catch {
       console.error("Handling of messaging token failed");
+      response.status(500).send();
     }
   }
   response.status(200).send();

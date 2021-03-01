@@ -1,13 +1,16 @@
-
 import { Product } from "../../functions/src/products/products";
 import { initializeFirebase } from "./firebase";
 import { getActiveProducts } from "./firestore";
+import { deleteToken, addToken } from "./messaging";
 
 (async () => {
   await initializeFirebase();
   const activeProducts: Product[] = await getActiveProducts();
 
   console.log("activeProducts", activeProducts);
+
+  // await deleteToken("test-id");
+  await addToken("test-id");
 })();
 
 // axios("/messagingToken", {
