@@ -16,10 +16,14 @@ export const createIconOfPublicImage = async (
       const apiUrl = `https://cdn.filestackcontent.com/${apiKey}/resize=width:${width}/${imageUrl}`;
       const imageStoreResult = await axios.post(apiUrl, { url: imageUrl });
       iconUrl = imageStoreResult.data.url;
+      if (!iconUrl.length) {
+        throw new Error('createIconOfPublicImage - Received empty icon url');
+      }
     } catch {
       console.warn("createIconOfPublicImage - creation of icon failed");
     }
   }
-
+  
+  console.log('createIconOfPublicImage - iconUrl, iconUrl')
   return iconUrl;
 };
